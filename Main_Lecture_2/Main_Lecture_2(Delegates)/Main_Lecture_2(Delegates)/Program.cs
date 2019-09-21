@@ -16,7 +16,7 @@ namespace Main_Lecture_2_Delegates_
             AlphaNumbericCollector collectionWithNambers = new AlphaNumbericCollector();
 
             Console.WriteLine("Do you want to add some string? y/n");
-            string answer = Console.ReadLine().ToLower();
+            string answer = Console.ReadLine();
             answer = answer.ToUpper();
 
             Repeat:
