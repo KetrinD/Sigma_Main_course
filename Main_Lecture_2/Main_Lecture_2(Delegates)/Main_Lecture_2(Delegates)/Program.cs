@@ -30,16 +30,17 @@ namespace Main_Lecture_2_Delegates_
                             Console.WriteLine("Enter a string:\n");
                             string mes = Console.ReadLine();
 
-                            Message messageString = collectionWithChars.Action;
-                            Message messageNembers = collectionWithNambers.Action;
+                            Message messageStringOrNember;
 
                             if (!mes.Any(c => char.IsDigit(c)))
                             {
-                                messageString(mes);
+                                messageStringOrNember = collectionWithChars.Action;
+                                messageStringOrNember(mes);
                             }
                             else
                             {
-                                messageNembers(mes);
+                                messageStringOrNember = collectionWithNambers.Action;
+                                messageStringOrNember(mes);
                             }
                             Console.WriteLine("\nDo you want to add some string? y/n");
 
