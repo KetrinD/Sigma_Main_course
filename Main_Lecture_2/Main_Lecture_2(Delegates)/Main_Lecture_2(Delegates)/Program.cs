@@ -28,7 +28,9 @@ namespace Main_Lecture_2_Delegates_
                         while (answer == "Y")
                         {
                             Console.WriteLine("Enter a string:\n");
+                            Console.ForegroundColor = ConsoleColor.Green;
                             string mes = Console.ReadLine();
+                            Console.ResetColor();
 
                             Message messageStringOrNember;
 
