@@ -30,7 +30,9 @@ namespace Main_Lecture_2_Events_
                         while (answer == "Y")
                         {
                             Console.WriteLine("Enter a string:\n");
+                            Console.ForegroundColor = ConsoleColor.Green;
                             string mes = Console.ReadLine();
+                            Console.ResetColor();
 
                             if (!mes.Any(c => char.IsDigit(c)))
                             {
