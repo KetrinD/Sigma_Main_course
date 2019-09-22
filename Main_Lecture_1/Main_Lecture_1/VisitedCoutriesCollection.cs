@@ -7,16 +7,18 @@ using System.Threading.Tasks;
 
 namespace Main_Lecture_1
 {
-    class VisitedCoutriesCollection <TmyType>: IEnumerable<TmyType>, IEnumerator<TmyType>
+    class VisitedCoutriesCollection<TmyType> : IEnumerable<TmyType>, IEnumerator<TmyType>
     {
-        private List<Coutry> coutries;
-        private int current = 0;
+        private List<TmyType> coutries;
+        private int current = -1;
+        private TmyType _current;
 
-        public void AddCountry(Coutry country)
+        public void AddCountry(TmyType country)
         {
             if (coutries == null)
             {
-                coutries = new List<Coutry>() { country };
+                coutries = new List<TmyType> () { country };
+                return;
             }
             else
             {
@@ -24,7 +26,7 @@ namespace Main_Lecture_1
             }
         }
 
-        public void RemoveCountry(Coutry country)
+        public void RemoveCountry(TmyType country)
         {
             if (coutries == null)
             {
@@ -36,12 +38,25 @@ namespace Main_Lecture_1
             }
         }
 
-        public object Current
+
+        public void RemoveCountryAtPosition(int a)
         {
-            get { return coutries[current];}
+            if (coutries == null)
+            {
+                Console.WriteLine("There is no country in your List");
+            }
+            else
+            {
+                coutries.RemoveAt(a);
+            }
         }
 
-        TmyType IEnumerator<TmyType>.Current => throw new NotImplementedException();
+        public object Current
+        {
+            get { return coutries[current]; }
+        }
+
+        TmyType IEnumerator<TmyType>.Current => _current;
 
         public IEnumerator GetEnumerator()
         {
@@ -51,7 +66,11 @@ namespace Main_Lecture_1
 
         public bool MoveNext()
         {
-            if (coutries.Count > current)
+            if (coutries == null)
+            {
+                return false;
+            }
+            if (coutries.Count - 1 > current)
             {
                 current++;
                 return true;
@@ -66,15 +85,15 @@ namespace Main_Lecture_1
 
         IEnumerator<TmyType> IEnumerable<TmyType>.GetEnumerator()
         {
-            throw new NotImplementedException();
+            current = -1;
+            return this;
         }
 
         public void Dispose()
         {
-            this.coutries = null;
+            //this.coutries = null;
         }
     }
-
-
-
 }
+
+
