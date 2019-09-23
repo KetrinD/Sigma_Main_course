@@ -43,7 +43,7 @@ namespace Main_Lecture_1
 
             foreach (var country in visitedCountries)
             {
-                Console.WriteLine(country);
+                Console.WriteLine(country.ToString());
             }
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(visitedCountries.Count());
@@ -54,7 +54,7 @@ namespace Main_Lecture_1
 
             foreach (var country in visitedCountries)
             {
-                Console.WriteLine(country);
+                Console.WriteLine(country.ToString());
             }
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(visitedCountries.Count());
