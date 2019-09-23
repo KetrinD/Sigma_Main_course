@@ -19,63 +19,80 @@ namespace Main_Lecture_2_Delegates_
             string answer = Console.ReadLine();
             answer = answer.ToUpper();
 
-            Repeat:
+
             switch (answer)
             {
                
                 case "Y":
                     {
-                        while (answer == "Y")
-                        {
-                            Console.WriteLine("Enter a string:\n");
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            string mes = Console.ReadLine();
-                            Console.ResetColor();
-
-                            Message messageStringOrNember;
-
-                            if (!mes.Any(c => char.IsDigit(c)))
-                            {
-                                messageStringOrNember = collectionWithChars.Action;
-                                messageStringOrNember(mes);
-                            }
-                            else
-                            {
-                                messageStringOrNember = collectionWithNambers.Action;
-                                messageStringOrNember(mes);
-                            }
-                            Console.WriteLine("\nDo you want to add some string? y/n");
-
-                            answer = Console.ReadLine();
-                            answer = answer.ToUpper();
-
-                            if (answer == "N")
-                            {
-                                goto case "N";
-                            }
-
-                            else if (!(answer == "N" || answer == "Y"))
-                                goto default;
-                        }
+                        Yeap();
                         break;
                     }
                 case "N":
                     {
-                        Console.WriteLine("Have a nice evening. Bye");
+                        Noup();
                         break;
                     }
                 default:
                     {
-                        while (! (answer == "N" ||answer == "Y"))
-                        {
-
-                            Console.WriteLine("You type wrong answer. You should select y/n");
-                            answer = Console.ReadLine();
-                            answer = answer.ToUpper(); { goto Repeat; }
-                        }
+                        Default();
                         break;
                     }
             }
+
+            void Yeap()
+            {
+                while (answer == "Y")
+                {
+                    Console.WriteLine("Enter a string:\n");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    string mes = Console.ReadLine();
+                    Console.ResetColor();
+
+                    Message messageStringOrNember;
+
+                    if (!mes.Any(c => char.IsDigit(c)))
+                    {
+                        messageStringOrNember = collectionWithChars.Action;
+                        messageStringOrNember(mes);
+                    }
+                    else
+                    {
+                        messageStringOrNember = collectionWithNambers.Action;
+                        messageStringOrNember(mes);
+                    }
+                    Console.WriteLine("\nDo you want to add some string? y/n");
+
+                    answer = Console.ReadLine();
+                    answer = answer.ToUpper();
+
+                    if (answer == "N")
+                    {
+                        Noup();
+                    }
+
+                    else if (!(answer == "N" || answer == "Y"))
+                        Default();
+                }
+            }
+
+            void Noup()
+            {
+                Console.WriteLine("Have a nice evening. Bye");
+            }
+
+             void Default()
+            {
+                while (!(answer == "N" || answer == "Y"))
+                {
+
+                    Console.WriteLine("You type wrong answer. You should select y/n");
+                    answer = Console.ReadLine();
+                    answer = answer.ToUpper();
+                    Yeap();
+                }
+            }
+
             Console.ReadKey();
         }
     }
