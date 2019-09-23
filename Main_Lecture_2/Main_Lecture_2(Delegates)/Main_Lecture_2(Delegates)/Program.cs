@@ -9,12 +9,12 @@ namespace Main_Lecture_2_Delegates_
     public delegate void Message(string message);
     class Program
     {
+        static StringCollector collectionWithChars = new StringCollector();
+        static AlphaNumbericCollector collectionWithNambers = new AlphaNumbericCollector();
+
         static void Main(string[] args)
         {
           
-            StringCollector collectionWithChars = new StringCollector();
-            AlphaNumbericCollector collectionWithNambers = new AlphaNumbericCollector();
-
             Console.WriteLine("Do you want to add some string? y/n");
             string answer = Console.ReadLine();
             answer = answer.ToUpper();
@@ -25,7 +25,7 @@ namespace Main_Lecture_2_Delegates_
                
                 case "Y":
                     {
-                        Yeap();
+                        Yeap(answer);
                         break;
                     }
                 case "N":
@@ -40,60 +40,59 @@ namespace Main_Lecture_2_Delegates_
                     }
             }
 
-            void Yeap()
-            {
-                while (answer == "Y")
-                {
-                    Console.WriteLine("Enter a string:\n");
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    string mes = Console.ReadLine();
-                    Console.ResetColor();
-
-                    Message messageStringOrNember;
-
-                    if (!mes.Any(c => char.IsDigit(c)))
-                    {
-                        messageStringOrNember = collectionWithChars.Action;
-                        messageStringOrNember(mes);
-                    }
-                    else
-                    {
-                        messageStringOrNember = collectionWithNambers.Action;
-                        messageStringOrNember(mes);
-                    }
-                    Console.WriteLine("\nDo you want to add some string? y/n");
-
-                    answer = Console.ReadLine();
-                    answer = answer.ToUpper();
-
-                    if (answer == "N")
-                    {
-                        Noup();
-                    }
-
-                    else if (!(answer == "N" || answer == "Y"))
-                        Default();
-                }
-            }
-
-            void Noup()
-            {
-                Console.WriteLine("Have a nice evening. Bye");
-            }
-
-             void Default()
-            {
-                while (!(answer == "N" || answer == "Y"))
-                {
-
-                    Console.WriteLine("You type wrong answer. You should select y/n");
-                    answer = Console.ReadLine();
-                    answer = answer.ToUpper();
-                    Yeap();
-                }
-            }
-
             Console.ReadKey();
+        }
+
+        public static void Yeap(string _mes)
+        {
+            while (_mes == "Y")
+            {
+                Console.WriteLine("Enter a string:\n");
+                Console.ForegroundColor = ConsoleColor.Green;
+                string mes = Console.ReadLine();
+                Console.ResetColor();
+
+                Message messageStringOrNember;
+
+                if (!mes.Any(c => char.IsDigit(c)))
+                {
+                    messageStringOrNember = collectionWithChars.Action;
+                    messageStringOrNember(mes);
+                }
+                else
+                {
+                    messageStringOrNember = collectionWithNambers.Action;
+                    messageStringOrNember(mes);
+                }
+                Console.WriteLine("\nDo you want to add some string? y/n");
+
+                _mes = Console.ReadLine();
+                _mes = _mes.ToUpper();
+
+                if (_mes == "N")
+                {
+                    Noup();
+                }
+                else 
+                    Default();
+            }
+        }
+
+        public static void Noup()
+        {
+            Console.WriteLine("Have a nice evening. Bye");
+        }
+
+        public static void Default()
+        {
+            string _mes = string.Empty;
+            while (!(_mes == "N" || _mes == "Y"))
+            {
+                Console.WriteLine("You type wrong answer. You should select y/n");
+                _mes = Console.ReadLine();
+                _mes = _mes.ToUpper();
+                Yeap(_mes);
+            }
         }
     }
  }
