@@ -38,7 +38,7 @@ namespace Main_Lecture_2_Events_
                     }
                 default:
                     {
-                        Default();
+                        Default(answer);
                         break;
                     }
             }
@@ -72,7 +72,7 @@ namespace Main_Lecture_2_Events_
                     Noup();
                 }
                 else
-                    Default();
+                    Default(_mes);
             }
         }
 
@@ -81,9 +81,8 @@ namespace Main_Lecture_2_Events_
             Console.WriteLine("Have a nice evening. Bye");
         }
 
-        public static void Default()
+        public static void Default(string _mes)
         {
-            string _mes = string.Empty;
             while (!(_mes == "N" || _mes == "Y"))
             {
                 Console.WriteLine("You type wrong answer. You should select y/n");
