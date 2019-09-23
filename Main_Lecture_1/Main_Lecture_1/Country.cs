@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Main_Lecture_1
 {
-    class Coutry
+    class Country
     {
         public string Name { get; set; }
     }

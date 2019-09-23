@@ -12,15 +12,15 @@ namespace Main_Lecture_1
         static void Main(string[] args)
         {
 
-            Coutry firstContry = new Coutry() { Name = "Germany" };
-            Coutry secondContry = new Coutry() { Name = "Poland" };
-            Coutry thirdContry = new Coutry() { Name = "Montenegro" };
-            Coutry fourthContry = new Coutry() { Name = "Georgia" };
-            Coutry fifthContry = new Coutry() { Name = "Egypt" };
-            Coutry sixthContry = new Coutry() { Name = "Turkey" };
-            Coutry seventhContry = new Coutry() { Name = "United Arab Emirates" };
+            Country firstContry = new Country() { Name = "Germany" };
+            Country secondContry = new Country() { Name = "Poland" };
+            Country thirdContry = new Country() { Name = "Montenegro" };
+            Country fourthContry = new Country() { Name = "Georgia" };
+            Country fifthContry = new Country() { Name = "Egypt" };
+            Country sixthContry = new Country() { Name = "Turkey" };
+            Country seventhContry = new Country() { Name = "United Arab Emirates" };
 
-            VisitedCoutriesCollection<Coutry> visitedCountries = new VisitedCoutriesCollection<Coutry>();
+            VisitedCoutriesCollection<Country> visitedCountries = new VisitedCoutriesCollection<Country>();
 
             visitedCountries.AddCountry(firstContry);
             visitedCountries.AddCountry(secondContry);
@@ -32,7 +32,7 @@ namespace Main_Lecture_1
 
             foreach (var country in visitedCountries)
             {
-                Console.WriteLine(country);
+                Console.WriteLine(country.ToString());
             }
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(visitedCountries.Count());
