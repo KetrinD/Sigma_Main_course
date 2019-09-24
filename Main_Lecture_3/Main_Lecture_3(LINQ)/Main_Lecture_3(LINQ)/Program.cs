@@ -24,8 +24,7 @@ namespace Main_Lecture_3_LINQ_
             numberedPlayers.ForEach(name => Console.WriteLine($"{name}"));
 
             //#2
-            string playersAge = "Jason Puncheon, 26/06/1986; Jos Hooiveld, 22/04/1983; Kelvin Davis, 29/09/1976; Luke Shaw, 12/07/1995; Gaston Ramirez, 02/12/1990; Adam Lallana, 10/05/1988";
-            string[] formats = new string[] { "dd-MM-yyyy", "MM/dd/yyyy" };
+            string playersAge = "Jason Puncheon, 26/06/1986; Jos Hooiveld, 22/04/1983; Kelvin Davis, 29/09/1976; Luke Shaw, 12/07/1995; Gaston Ramirez, 02/12/1990; Adam Lallana, 10/05/1988";      
             var player = playersAge.Split(';').Select(s => new
             {
                 Name = s.Split(',')[0],
