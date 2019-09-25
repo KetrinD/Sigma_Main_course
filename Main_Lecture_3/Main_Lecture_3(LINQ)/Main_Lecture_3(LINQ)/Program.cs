@@ -11,8 +11,8 @@ namespace Main_Lecture_3_LINQ_
     {
         static void Main(string[] args)
         {
-            //#1
-            string players = "Davis, Clyne, Fonte, Hooiveld, Shaw, Davis, Schneiderlin, Cork, Lallana, Rodriguez, Lambert";
+            //#1-v.1
+            string players = " Davis, Clyne, Fonte, Hooiveld, Shaw, Davis, Schneiderlin, Cork, Lallana, Rodriguez, Lambert";
             int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
 
             string[] splitedPlayers = players.Split(',');
@@ -22,6 +22,10 @@ namespace Main_Lecture_3_LINQ_
                 ).ToList();
 
             numberedPlayers.ForEach(name => Console.WriteLine($"{name}"));
+
+            //#1-v.2
+            string result = players.Split(',').Zip((Enumerable.Range(1, 11)), (first, second) => second + "." + first).Aggregate((current, next) => current + ", "+ next);
+            Console.WriteLine(result);
 
             //#2
             string playersAge = "Jason Puncheon, 26/06/1986; Jos Hooiveld, 22/04/1983; Kelvin Davis, 29/09/1976; Luke Shaw, 12/07/1995; Gaston Ramirez, 02/12/1990; Adam Lallana, 10/05/1988";      
