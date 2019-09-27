@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace Main_Lecture_4_Xml_
 {
     public class Student
     {
         public Dictionary<string, string> ExtraData { get; }
+        public Dictionary<HomeTaks, Marks> AllHomeTasksMarks { get; }
         public List<Course> Courses { get; }
         
         public string FirstName { get; set; }
@@ -23,6 +25,7 @@ namespace Main_Lecture_4_Xml_
         {
             ExtraData = new Dictionary<string, string>();
             Courses = new List<Course>();
+            AllHomeTasksMarks = new Dictionary<HomeTaks, Marks>();
         }
 
         public override string ToString()

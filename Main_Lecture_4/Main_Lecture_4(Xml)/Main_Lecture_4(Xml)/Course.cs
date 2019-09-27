@@ -14,6 +14,7 @@ namespace Main_Lecture_4_Xml_
         public DateTime EndDay { get; set; }
         public int PassingScore { get; set; }
         public List<Student> CourseStudents { get; set; }
+        public List<HomeTaks> CourseHomeTasksList { get; set; }
         public Course()
         { }
 
@@ -31,6 +32,7 @@ namespace Main_Lecture_4_Xml_
             EndDay = DateTime.ParseExact(endDay, "dd.MM.yyyy", CultureInfo.InvariantCulture);
             PassingScore = passingScore;
             CourseStudents = new List<Student>();
+            CourseHomeTasksList = new List<HomeTaks>();
         }
 
         public override string ToString()
