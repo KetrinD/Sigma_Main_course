@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Main_Lecture_4_Xml_
 {
-    class Teacher
+    public class Teacher
     {
         public string TeacherFirstName { get; set; }
         public string TeacherLastName { get; set; }
@@ -20,6 +20,11 @@ namespace Main_Lecture_4_Xml_
             TeacherLastName = LastName;
             Birthday = DateTime.ParseExact(DB, "dd.MM.yyyy", CultureInfo.InvariantCulture);
             Courses = new List<Course>();
+        }
+
+        public override string ToString()
+        {
+            return ($"{TeacherFirstName} {TeacherLastName}");
         }
     }
 }

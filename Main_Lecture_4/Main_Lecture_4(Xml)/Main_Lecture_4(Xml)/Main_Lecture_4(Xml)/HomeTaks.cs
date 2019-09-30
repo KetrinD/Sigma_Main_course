@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -25,6 +25,11 @@ namespace Main_Lecture_4_Xml_
             HomeworkDescription = hmDescription;
             HomeworkDueDate = DateTime.ParseExact(hwDueDate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
             HomeTaksMarks = new Dictionary<Student, Marks>();
+        }
+
+        public override string ToString()
+        {
+            return ($"Home Task: {HomeworkTitle} \nDescription: {HomeworkDescription} \nDueDate: {HomeworkDueDate}\n");
         }
 
     }

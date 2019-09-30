@@ -15,6 +15,7 @@ namespace Main_Lecture_4_Xml_
         public int PassingScore { get; set; }
         public List<Student> CourseStudents { get; set; }
         public List<HomeTaks> CourseHomeTasksList { get; set; }
+        public List<Teacher> CourseTeachers { get; set; }
         public Course()
         { }
 
@@ -33,6 +34,7 @@ namespace Main_Lecture_4_Xml_
             PassingScore = passingScore;
             CourseStudents = new List<Student>();
             CourseHomeTasksList = new List<HomeTaks>();
+            CourseTeachers = new List<Teacher>();
         }
 
         public override string ToString()

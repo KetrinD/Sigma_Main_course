@@ -30,7 +30,7 @@ namespace Main_Lecture_4_Xml_
 
         public override string ToString()
         {
-            return LastName + " " + FirstName + " " + Birthday;
+            return ($"{LastName} {FirstName}");
         }
     }
 }

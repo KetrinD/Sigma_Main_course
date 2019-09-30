@@ -17,5 +17,10 @@ namespace Main_Lecture_4_Xml_
             MarkTitle = markTitle;
             MarksDate = DateTime.ParseExact(marksDate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
         }
+
+        public override string ToString()
+        {
+            return ($"Mark: {MarkTitle}");
+        }
     }
 }
