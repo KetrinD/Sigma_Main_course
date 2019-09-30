@@ -19,7 +19,6 @@ namespace Main_Lecture_4_Xml_
         public string Email { get; set; }
         public string GitHubLink { get; set; }
         public string Phone { get; set; }
- 
 
         public Student()
         {
@@ -27,7 +26,6 @@ namespace Main_Lecture_4_Xml_
             Courses = new List<Course>();
             AllHomeTasksMarks = new Dictionary<HomeTaks, Marks>();
         }
-
         public override string ToString()
         {
             return ($"{LastName} {FirstName}");

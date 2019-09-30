@@ -46,7 +46,9 @@
     <Compile Include="AddingHelper.cs" />
     <Compile Include="Course.cs" />
     <Compile Include="DisplayingData.cs" />
+    <Compile Include="ExportXml.cs" />
     <Compile Include="HomeTaks.cs" />
+    <Compile Include="ImportXml.cs" />
     <Compile Include="Marks.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="Program.cs" />
@@ -57,7 +59,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Input_students.xml" />
+    <Content Include="Input_courses.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Input_students.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

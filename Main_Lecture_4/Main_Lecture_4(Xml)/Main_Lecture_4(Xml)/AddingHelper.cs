@@ -31,10 +31,5 @@ namespace Main_Lecture_4_Xml_
             student.AllHomeTasksMarks.Add(homeTaks, mark);
             homeTaks.HomeTaksMarks.Add(student, mark);
         }
-
-
-
-
-
     }
 }
