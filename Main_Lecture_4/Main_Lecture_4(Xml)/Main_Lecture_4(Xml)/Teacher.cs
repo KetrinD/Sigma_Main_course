@@ -14,6 +14,13 @@ namespace Main_Lecture_4_Xml_
         public DateTime Birthday { get; set; }
         public List<Course> Courses { get; }
 
+
+        public Teacher(string st)
+        {
+            TeacherFirstName = st;
+            Courses = new List<Course>();
+        }
+
         public Teacher(string FirstName, string LastName, string DB)
         {
             TeacherFirstName = FirstName;

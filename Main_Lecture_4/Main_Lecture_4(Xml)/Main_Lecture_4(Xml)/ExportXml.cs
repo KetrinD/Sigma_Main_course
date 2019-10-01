@@ -72,13 +72,13 @@ namespace Main_Lecture_4_Xml_
             foreach (var course in ImportCourses)
             {
                 XElement courseElement = new XElement("Course",
-                    new XAttribute("firstName", course.CourseTitle));
+                    new XAttribute("CourseTitle", course.CourseTitle));
 
                 root.Add(courseElement);
 
                 courseElement.Add(new XElement("StartDay", GetStartDayCourse(course.StartDay)));
                 courseElement.Add(new XElement("EndDay", GetEndDayCourse(course.EndDay)));
-                courseElement.Add(new XElement("PassingScore", course.StartDay));
+                courseElement.Add(new XElement("PassingScore", course.PassingScore));
 
                 XElement studentsElement = new XElement("CourseStudents");
                 courseElement.Add(studentsElement);
@@ -89,14 +89,14 @@ namespace Main_Lecture_4_Xml_
 
                 XElement courseHomeTasksElement = new XElement("CourseHomeTasksList");
                 courseElement.Add(courseHomeTasksElement);
-                foreach (var homeTask in course.CourseStudents)
+                foreach (var homeTask in course.CourseHomeTasksList)
                 {
                     courseHomeTasksElement.Add(new XElement("HomeTask", homeTask));
                 }
 
                 XElement courseTeacherElement = new XElement("CourseTeachers");
                 courseElement.Add(courseTeacherElement);
-                foreach (var teacher in course.CourseStudents)
+                foreach (var teacher in course.CourseTeachers)
                 {
                     courseTeacherElement.Add(new XElement("Teacher", teacher));
                 }

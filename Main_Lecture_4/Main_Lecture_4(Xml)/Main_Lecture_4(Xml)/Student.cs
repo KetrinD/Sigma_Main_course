@@ -26,9 +26,23 @@ namespace Main_Lecture_4_Xml_
             Courses = new List<Course>();
             AllHomeTasksMarks = new Dictionary<HomeTaks, Marks>();
         }
+
+        public Student(string st)
+        {
+            FirstName = st;
+            ExtraData = new Dictionary<string, string>();
+            Courses = new List<Course>();
+            AllHomeTasksMarks = new Dictionary<HomeTaks, Marks>();
+        }
+
         public override string ToString()
         {
             return ($"{LastName} {FirstName}");
         }
     }
 }
+
+            //foreach (var st in Courses)
+            //{
+            //    Console.WriteLine(st);
+            //};

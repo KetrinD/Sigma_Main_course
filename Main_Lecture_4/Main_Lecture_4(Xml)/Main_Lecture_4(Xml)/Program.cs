@@ -81,7 +81,7 @@ namespace Main_Lecture_4_Xml_
 
             //STUDENT
             List<Student> ImportStudents = new List<Student>();
- 
+
             //Add new student
             Student newStudent_1 = new Student()
             {
@@ -97,6 +97,10 @@ namespace Main_Lecture_4_Xml_
             newStudent_1.ExtraData.Add("Marriage", "No,Thanks God");
 
             ImportStudents.Add(newStudent_1);
+
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine($"\nNew student was created: {newStudent_1.ToString()}");
+            Console.ResetColor();
 
             // corurses added to student 
             // student added to courses
@@ -129,12 +133,11 @@ namespace Main_Lecture_4_Xml_
             DisplayingData.HomeTaskHasNextStudents(homeTask_4);
 
             //*********************************************
-          
-            // Import
-            ImportXml.Import(ImportStudents);
+            //Import
+            ImportXml.ImportStudents(ImportStudents);
             Console.WriteLine("\nV.1");
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"List after Import Students. Count - {ImportStudents.Count}");
+            Console.WriteLine($"\nList after Import Students. Count - {ImportStudents.Count}");
             Console.ResetColor();
             foreach (var st in ImportStudents)
             {
@@ -156,9 +159,17 @@ namespace Main_Lecture_4_Xml_
                                    };
             Console.WriteLine("\nV.2");
 
+            Console.WriteLine("Students were added via Import:");
             foreach (var item in studentsElement2)
             {
                 Console.WriteLine($"{item.FirstName} - {item.LastName} - {item.GitHubLink}");
+            }
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"List after Import Students. Count - {ImportStudents.Count}");
+            Console.ResetColor();
+            foreach (var st in ImportStudents)
+            {
+                Console.WriteLine(st.ToString());
             }
 
             //Export Students
@@ -183,6 +194,10 @@ namespace Main_Lecture_4_Xml_
             newStudent.ExtraData.Add("Marriage", "No,Thanks God");
 
             ImportStudents.Add(newStudent);
+
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine($"\nNew student was created: {newStudent.ToString()}");
+            Console.ResetColor();
 
             // corurses added to student 
             // student added to courses
@@ -214,7 +229,6 @@ namespace Main_Lecture_4_Xml_
             DisplayingData.HomeTaskHasNextStudents(homeTask_5);
             DisplayingData.HomeTaskHasNextStudents(homeTask_6);
 
-
             //List after added new Student. Count
 
             Console.ForegroundColor = ConsoleColor.Green;
@@ -233,23 +247,22 @@ namespace Main_Lecture_4_Xml_
             Console.ResetColor();
             Console.WriteLine($"{result3}");
 
-            //List after second Import Students. Count
-
-            ImportXml.Import(ImportStudents);
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine($"\nList after second Import Students. Count - {ImportStudents.Count}");
+            //Import Course
+            ImportXml.ImportCourses(ImportCourses);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\nList after Import Course. Count - {ImportCourses.Count}");
             Console.ResetColor();
-            foreach (var st in ImportStudents)
+            foreach (var course in ImportCourses)
             {
-                Console.WriteLine(st.ToString());
+                Console.WriteLine(course.ToString());
             }
 
             //Export Course
-            var resultCourse = ExportXml.ExportCourse(ImportCourses);
+            var resultCourseExport = ExportXml.ExportCourse(ImportCourses);
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"\nFile after Export Courses. Count - {ImportCourses.Count}");
             Console.ResetColor();
-            Console.WriteLine($"\n{resultCourse}");
+            Console.WriteLine($"\n{resultCourseExport}");
 
             Console.ReadKey();
         }

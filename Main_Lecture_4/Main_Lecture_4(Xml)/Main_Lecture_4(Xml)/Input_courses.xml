@@ -1,3 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Courses>
+ <Course CourseTitle="Intellias: Game of Thrones: basic course">
+    <StartDay>01.03.2020</StartDay>
+    <EndDay>15.05.2020</EndDay>
+    <PassingScore>80</PassingScore>
+    <CourseStudents>
+      <Student>Ketrin Shynkarenko</Student>
+    </CourseStudents>
+    <CourseHomeTasksList>
+      <HomeTask>Home Task: Watch 7-st season of Games of Thrones
+Description: Discuss Jaqen H'ghar character with friends
+DueDate: 10/15/2019 12:00:00 AM
+</HomeTask>
+    </CourseHomeTasksList>
+    <CourseTeachers>
+      <Teacher>Targaryen Daenerys</Teacher>
+      <Teacher>Jon Snow</Teacher>
+    </CourseTeachers>
+  </Course>
 </Courses>

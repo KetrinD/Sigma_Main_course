@@ -19,6 +19,12 @@ namespace Main_Lecture_4_Xml_
             Count++;
         }
 
+
+        public HomeTaks(string st)
+        {
+            HomeworkTitle = st;   
+        }
+
         public HomeTaks(string hwTitle, string hmDescription, string hwDueDate)
         {
             HomeworkTitle = hwTitle;
