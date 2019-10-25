@@ -85,18 +85,20 @@ namespace Web.Api.Demo.Controllers
             return students;
         }
 
+        //DeleteStudentsFromCourse
+        [HttpDelete]
+        [Route("Courses/DeleteStudentFromCourse/{courseId}")]
+        public Course DeleteStudentFromCourse([FromRoute] int courseId, [FromBody] int studentId)
+        {
+            _repository.DeleteStudentFromCourse(courseId, studentId);
+            var course = _repository.GetCourse(courseId);
+            return course;
+        }
+
     }
 }
 
 
 
-////DeleteStudentsFromCourse
-//[HttpDelete]
-//[Route("Courses/DeleteStudentsFromCourse/{courseId}")]
-//public Course DeleteStudentsFromCourse([FromRoute] int courseId, IEnumerable<int> studentsId)
-//{
-//    _repository.DeleteStudentsFromCourse(courseId, studentsId);
-//    var course = _repository.GetCourse(courseId);
-//    return course;
-//}
+
 

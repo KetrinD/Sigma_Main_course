@@ -170,9 +170,18 @@ INSERT INTO [dbo].[HomeTaskAssessment]
             }
         }
 
+        public void DeleteStudentFromCourse(int courseId, int studentId)
+        {
+            using (SqlConnection connection = GetConnection())
+            {
+                SqlCommand sqlCommand = new SqlCommand(
+                    $@"DELETE FROM [dbo].[StudentCourse]
+                WHERE (CourseId={courseId}) AND (StudentId = {studentId})", connection);
+                sqlCommand.ExecuteNonQuery();
+            }
+        }
 
-               
-            public void DeleteCourse(int courseId)
+        public void DeleteCourse(int courseId)
         {
             using (SqlConnection connection = GetConnection())
             {
@@ -879,13 +888,10 @@ SELECT CAST(scope_identity() AS int)
 //{
 //    using (SqlConnection connection = GetConnection())
 //    {
-
-//        foreach (var studentId in studentsId)
-//        {
-//            SqlCommand sqlCommand = new SqlCommand(
-//                $@"DELETE FROM [dbo].[StudentCourse]
-//            WHERE CourseId = {courseId}", connection);
-//            sqlCommand.ExecuteNonQuery();
-//        }
+//        var studentsIds = studentsId;
+//        SqlCommand sqlCommand = new SqlCommand(
+//            $@"DELETE FROM [dbo].[StudentCourse]
+//                WHERE (CourseId={courseId}) AND (StudentId = {studentsId})", connection);
+//        sqlCommand.ExecuteNonQuery();
 //    }
 //}
