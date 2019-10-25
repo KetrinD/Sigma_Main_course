@@ -181,6 +181,19 @@ INSERT INTO [dbo].[HomeTaskAssessment]
             }
         }
 
+        public void DeleteSeveralStudentsFromCourse(int courseId, IEnumerable<int> studentsId)
+        {
+            var studentsIds = String.Join(",", studentsId.ToArray());
+            using (SqlConnection connection = GetConnection())
+            {
+                SqlCommand sqlCommand = new SqlCommand(
+                    $@"DELETE FROM [dbo].[StudentCourse]
+                WHERE (CourseId={courseId}) AND (StudentId in ({studentsIds}))", connection);
+                sqlCommand.ExecuteNonQuery();
+            }
+        }
+
+
         public void DeleteCourse(int courseId)
         {
             using (SqlConnection connection = GetConnection())
