@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Models.Models.Lecturer>
+<html>
+<head>
+    <title> This is Lecturers page</title>
+</head>
+
+<body>
+    <b>@Html.ActionLink("Create New Lecturer", "CreateLecturer")</b>
+
+    @foreach (var lecturer in Model)
+    {   
+        <div><p><b><font color="darkgreen">@lecturer.Name</font></b></p></div>
+
+        @Html.ActionLink("Edit Lecturer", "EditLecturer", new { Id = lecturer.Id })
+        <br>
+        @Html.ActionLink("Delete Lecturer", "DeleteLecturer", new { Id = lecturer.Id })
+    }
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Models.Models.Course>
+<html>
+<head>
+    <title> This is Courses page</title>
+</head>
+
+<body>
+    <b> @Html.ActionLink("Create New Course", "CreateCourse")</b>
+
+    @foreach (var course in Model)
+    {
+        <div><p><b><font color="magenta">@course.Name</font></b></p></div>
+
+        @Html.ActionLink("Edit Course", "EditCourse", new { Id = course.Id })
+        <br>
+        @Html.ActionLink("Delete Course", "DeleteCourse", new { Id = course.Id })
+        <br>
+        @Html.ActionLink("Assign Students to Course", "AssignStudents", new { Id = course.Id })
+        <br>
+        @Html.ActionLink("Assign Lecturers to Course", "AssignLecturers", new { Id = course.Id })
+    }
+
+</body>
+</html>
