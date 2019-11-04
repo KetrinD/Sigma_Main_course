@@ -443,6 +443,27 @@ SELECT CAST(scope_identity() AS int)
             return homeTask;
         }
 
+        public List<HomeTask> GetAllHomeTasks()
+        {
+            List<HomeTask> result = new List<HomeTask>();      
+            using (SqlConnection connection = GetConnection())
+            {
+                SqlCommand sqlCommand = new SqlCommand(
+                    $@"
+                   SELECT [Id]
+                  ,[Date]
+                  ,[Title]
+                  ,[Description]
+                  ,[Number]
+                  ,[CourseId]
+              FROM [dbo].[HomeTask]", connection);
+                ReadHomeTasksFromCommand(sqlCommand, result);
+            }
+            return result;
+        }
+
+
+
         public HomeTask GetHomeTaskById(int id, bool loadAllDependencies = true)
         {
             using (SqlConnection connection = GetConnection())
@@ -478,7 +499,41 @@ SELECT CAST(scope_identity() AS int)
             }
         }
 
-        public void SetStudentsToCourse(int courseId, IEnumerable<int> studentsId)       
+        public HomeTask GetHomeTasksByCourse(int id, bool loadAllDependencies = true)
+        {
+            using (SqlConnection connection = GetConnection())
+            {
+                SqlCommand sqlCommand = new SqlCommand(
+                    $@"
+                   SELECT [Id]
+                  ,[Title]
+                  ,[Date]
+                  ,[Description]
+                  ,[Number]
+                  ,[CourseId]
+              FROM [dbo].[HomeTask]
+              WHERE [CourseId] = {id}", connection);
+                using (var reader = sqlCommand.ExecuteReader())
+                {
+                    reader.Read();
+                    HomeTask homeTask = new HomeTask();
+                    homeTask.Id = reader.GetInt32(0);
+                    homeTask.Title = reader.GetString(1);
+                    homeTask.Date = reader.GetDateTime(2);
+                    homeTask.Description = reader.GetString(3);
+                    homeTask.Number = reader.GetInt16(4);
+                    int courseId = reader.GetInt32(5);
+                    if (loadAllDependencies)
+                    {   
+                        homeTask.Course = GetCourse(courseId);
+                    }
+                    return homeTask;
+                }
+            }
+        }
+
+
+    public void SetStudentsToCourse(int courseId, IEnumerable<int> studentsId)       
         {
             using (SqlConnection connection = GetConnection())
             {
@@ -565,6 +620,26 @@ SELECT CAST(scope_identity() AS int)
                 }
             }
         }
+
+        private static void ReadHomeTasksFromCommand(SqlCommand sqlCommand, List<HomeTask> result)
+        {
+            using (var reader = sqlCommand.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    HomeTask homeTask = new HomeTask();
+                    homeTask.Id = reader.GetInt32(0);
+                    homeTask.Date = reader.GetDateTime(1);
+                    homeTask.Title = reader.GetString(2);
+                    homeTask.Description = reader.GetString(3);
+                    homeTask.Number = reader.GetInt16(4);
+                    int courseId = reader.GetInt32(5);
+                    result.Add(homeTask);
+                }
+            }
+        }
+
+
 
         private SqlParameter AddWithNullableValue(SqlParameterCollection target, string parameterName, object value)
         {
@@ -899,18 +974,3 @@ SELECT CAST(scope_identity() AS int)
     }
 }
 
-
-
-
-
-//public void DeleteStudentsFromCourse(int courseId, IEnumerable<int> studentsId)
-//{
-//    using (SqlConnection connection = GetConnection())
-//    {
-//        var studentsIds = studentsId;
-//        SqlCommand sqlCommand = new SqlCommand(
-//            $@"DELETE FROM [dbo].[StudentCourse]
-//                WHERE (CourseId={courseId}) AND (StudentId = {studentsId})", connection);
-//        sqlCommand.ExecuteNonQuery();
-//    }
-//}
