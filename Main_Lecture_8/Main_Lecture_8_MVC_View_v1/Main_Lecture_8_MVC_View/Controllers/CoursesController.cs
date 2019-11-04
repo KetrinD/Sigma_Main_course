@@ -144,6 +144,36 @@ namespace Web.Api.Demo.Controllers
         }
 
 
+        ////8888888888888888888888
+        //[HttpGet]
+        //public IActionResult HomeTasksByCourseId(int id)
+        //{
+        //    var course = _repository.GetCourse(id);
+        //    CourseHomeTasksViewModel model = new CourseHomeTasksViewModel()
+        //    {
+        //        Name = course.Name,
+        //        Id = id,
+        //        EndDate = course.EndDate,
+        //        PassCredits = course.PassCredits,
+        //        StartDate = course.StartDate,
+        //        HomeTasks = new List<HomeTasksViewModel>()
+        //    };
+
+        //    var allHomeTasks = _repository.GetHomeTasksByCourse(id);
+        //    foreach (var homeTask in allHomeTasks)
+        //    {
+                
+        //        model.HomeTasks.Add(new HomeTasksViewModel()
+        //        {
+                    
+        //            HomeTasksTitle = homeTask.Title,
+        //            LectureId = lecturer.Id
+        //        });
+        //    }
+        //    return View(model);
+        //}
+
+
     }
 
 }
