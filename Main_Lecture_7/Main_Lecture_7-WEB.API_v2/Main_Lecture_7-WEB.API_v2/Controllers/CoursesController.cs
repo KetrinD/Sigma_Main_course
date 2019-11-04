@@ -29,7 +29,7 @@ namespace Web.Api.Demo.Controllers
 
         //GetCourseById
         [HttpGet]
-        public ActionResult<Course> GetCourseById ([FromRoute] int id)
+        public ActionResult<Course> GetCourseById([FromRoute] int id)
         {
             var course = _repository.GetCourse(id);
 
