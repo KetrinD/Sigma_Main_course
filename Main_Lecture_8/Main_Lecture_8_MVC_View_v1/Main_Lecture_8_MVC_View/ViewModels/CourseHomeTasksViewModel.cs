@@ -27,6 +27,12 @@ namespace Main_Lecture_8_MVC_View.ViewModels
         public string HomeTasksTitle { get; set; }
 
         public string HomeTasksDescription { get; set; }
+        
+        public int HomeTasksNumber { get; set; }
+
+        public DateTime HomeTasksDate { get; set; }
+
+
     }
 
 }

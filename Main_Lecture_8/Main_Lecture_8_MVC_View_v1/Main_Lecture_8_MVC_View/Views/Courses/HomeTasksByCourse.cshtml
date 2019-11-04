@@ -1,0 +1,55 @@
+﻿@model Main_Lecture_8_MVC_View.ViewModels.CourseHomeTasksViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<html>
+<head>
+    <title> Assign Lecturers</title>
+</head>
+
+<body>
+    <form asp-action="HomeTasksByCourseId">
+        @Html.HiddenFor(p => p.Id)
+        <p>@Model.Name</p>
+        <p>@Model.StartDate</p>
+        <p>@Model.EndDate</p>
+
+        <h2>Home tasks</h2>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Data</th>
+            </tr>
+
+            @for (var i = 0; i < Model.HomeTasks.Count; i++)
+            {
+                <tr>
+                    <td>@Model.HomeTasks[i].HomeTasksTitle</td>
+                    <td>@Model.HomeTasks[i].HomeTasksDescription</td>
+                    <td>@Model.HomeTasks[i].HomeTasksNumber</td>
+                    <td>@Model.HomeTasks[i].HomeTasksDate</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "HomeTask", new { id = @Model.HomeTasks[i].HomeTasksId });
+                        @Html.ActionLink("Delete", "Delete", "HomeTask", new { homeTaskId = @Model.HomeTasks[i].HomeTasksId, courseid = Model.Id });
+                    </td>
+                </tr>
+            }
+        </table>
+        </form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -18,9 +18,12 @@
         @Html.ActionLink("Assign Students to Course", "AssignStudents", new { Id = course.Id })
         <br>
         @Html.ActionLink("Assign Lecturers to Course", "AssignLecturers", new { Id = course.Id })
+        <br>
+        @Html.ActionLink("All Home Works in Course", "HomeTasksByCourseId", new { Id = course.Id })
+
     }
 
-   
+
 
 </body>
 </html>

@@ -143,37 +143,35 @@ namespace Web.Api.Demo.Controllers
 
         }
 
+        //HomeTasksByCourseId
+        [HttpGet]
+        public IActionResult HomeTasksByCourseId(int id)
+        {
+            var course = _repository.GetCourse(id);
+            CourseHomeTasksViewModel model = new CourseHomeTasksViewModel()
+            {
+                Name = course.Name,
+                Id = id,
+                EndDate = course.EndDate,
+                PassCredits = course.PassCredits,
+                StartDate = course.StartDate,
+                HomeTasks = new List<HomeTasksViewModel>()
+            };
 
-        ////8888888888888888888888
-        //[HttpGet]
-        //public IActionResult HomeTasksByCourseId(int id)
-        //{
-        //    var course = _repository.GetCourse(id);
-        //    CourseHomeTasksViewModel model = new CourseHomeTasksViewModel()
-        //    {
-        //        Name = course.Name,
-        //        Id = id,
-        //        EndDate = course.EndDate,
-        //        PassCredits = course.PassCredits,
-        //        StartDate = course.StartDate,
-        //        HomeTasks = new List<HomeTasksViewModel>()
-        //    };
-
-        //    var allHomeTasks = _repository.GetHomeTasksByCourse(id);
-        //    foreach (var homeTask in allHomeTasks)
-        //    {
-                
-        //        model.HomeTasks.Add(new HomeTasksViewModel()
-        //        {
-                    
-        //            HomeTasksTitle = homeTask.Title,
-        //            LectureId = lecturer.Id
-        //        });
-        //    }
-        //    return View(model);
-        //}
-
-
+            var allHomeTasks = _repository.GetHomeTasksByCourseId(id);
+            foreach (var homeTask in allHomeTasks)
+            {
+                model.HomeTasks.Add(new HomeTasksViewModel()
+                {
+                    HomeTasksTitle = homeTask.Title,
+                    HomeTasksDescription = homeTask.Description,
+                    HomeTasksNumber = homeTask.Number,
+                    HomeTasksDate = homeTask.Date,
+                    HomeTasksId = homeTask.Id
+                });
+            }
+            return View("HomeTasksByCourse", model);
+        }
     }
 
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Main_Lecture_8_MVC_View.ViewModels
 {
         public class CourseLecturersAssignmentViewModel
-    {
+        {
             public string Name { get; set; }
 
             public int Id { get; set; }

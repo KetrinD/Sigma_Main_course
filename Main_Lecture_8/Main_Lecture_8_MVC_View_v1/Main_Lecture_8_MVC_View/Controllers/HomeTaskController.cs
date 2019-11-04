@@ -47,7 +47,7 @@ namespace Web.Api.Demo.Controllers
             return RedirectToAction("EditCourse", "Courses", routeValueDictionary);
         }
 
-        [HttpGet]
+        //[HttpGet]
         public IActionResult Edit(int id)
         {
             HomeTask homeTask = this._repository.GetHomeTaskById(id);
@@ -71,6 +71,7 @@ namespace Web.Api.Demo.Controllers
             return RedirectToAction("EditCourse", "Courses", routeValueDictionary);
         }
 
+
         [HttpGet]
         public IActionResult Delete(int homeTaskId, int id)
         {
@@ -79,13 +80,6 @@ namespace Web.Api.Demo.Controllers
             routeValueDictionary.Add("id", id);
             return RedirectToAction("EditCourse", "Course", routeValueDictionary);
         }
-
-
-
-
-
-
-
     }
 }
 

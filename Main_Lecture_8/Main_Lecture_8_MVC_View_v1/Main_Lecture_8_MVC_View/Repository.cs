@@ -498,7 +498,7 @@ SELECT CAST(scope_identity() AS int)
                 }
             }
         }
-
+        
         public HomeTask GetHomeTasksByCourse(int id, bool loadAllDependencies = true)
         {
             using (SqlConnection connection = GetConnection())
@@ -749,7 +749,7 @@ SELECT CAST(scope_identity() AS int)
             return result;
         }
 
-        private List<HomeTask> GetHomeTasksByCourseId(int courseId)
+        public List<HomeTask> GetHomeTasksByCourseId(int courseId)
         {
             List<HomeTask> homeTasks = new List<HomeTask>();
 

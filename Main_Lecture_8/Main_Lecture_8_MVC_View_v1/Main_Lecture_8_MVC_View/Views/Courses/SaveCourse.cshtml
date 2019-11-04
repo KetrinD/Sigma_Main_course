@@ -16,27 +16,6 @@
         @Html.HiddenFor(p => p.Id);
         <input type="submit" value="post" />
     </form>
-    <h2>Home tasks</h2>
-    <table>
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Data</th>
-        </tr>
-        @foreach (var homeTask in Model.HomeTasks)
-        {
-            <tr>
-                <td>@Html.DisplayFor(model => homeTask.Title)</td>
-                <td>@Html.DisplayFor(model => homeTask.Description)</td>
-                <td>@Html.DisplayFor(model => homeTask.Date)</td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", "HomeTask", new { id = homeTask.Id});
-                    @Html.ActionLink("Delete", "Delete", "HomeTask", new { homeTaskId = homeTask.Id, courseid = Model.Id });
-                </td>
-            </tr>
-        }
-    </table>
-    <a asp-action="Create" asp-controller="HomeTask" asp-route-courseId=@Model.Id>Add new home task</a>
 
 </body>
 </html>
