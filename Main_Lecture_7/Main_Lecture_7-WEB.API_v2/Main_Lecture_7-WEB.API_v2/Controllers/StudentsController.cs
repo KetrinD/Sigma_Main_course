@@ -8,6 +8,7 @@ using Models.Models;
 
 namespace Web.Api.Demo.Controllers
 {
+    [Route("Api")]
     public class StudentsController : ControllerBase
     {
         private readonly Repository _repository;
@@ -20,6 +21,7 @@ namespace Web.Api.Demo.Controllers
         }
 
         //CreateStudent
+        [Route("Students")]
         [HttpPost]
         public ActionResult<Student> CreateStudent([FromBody] Student student)
         {
@@ -28,6 +30,7 @@ namespace Web.Api.Demo.Controllers
         }
 
         //GetStudentById
+        [Route("Students/{id}")]
         [HttpGet]
         public ActionResult<Student> GetStudentById([FromRoute] int id)
         {
@@ -43,6 +46,7 @@ namespace Web.Api.Demo.Controllers
         }
 
         //GetAllStudents
+        [Route("Students")]
         [HttpGet]
         public ActionResult<List<Student>> GetAllStudents()
         {
@@ -51,6 +55,7 @@ namespace Web.Api.Demo.Controllers
         }
 
         //UpdateStudent
+        [Route("Students")]
         [HttpPut]
         public ActionResult<Student> UpdateStudentById([FromBody]Student student)
         {
@@ -59,6 +64,7 @@ namespace Web.Api.Demo.Controllers
         }
 
         //DeleteStudent
+        [Route("Students/{id}")]
         [HttpDelete]
         public string DeleteStudentById([FromRoute] int id)
         {

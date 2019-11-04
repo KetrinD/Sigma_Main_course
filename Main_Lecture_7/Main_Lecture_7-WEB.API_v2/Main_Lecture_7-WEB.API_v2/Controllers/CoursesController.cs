@@ -8,6 +8,7 @@ using Models.Models;
 
 namespace Web.Api.Demo.Controllers
 {
+    [Route("Api")]
     public class CoursesController : ControllerBase
     {
         private readonly Repository _repository;
@@ -20,6 +21,7 @@ namespace Web.Api.Demo.Controllers
         }
 
         //CreateCourse
+        [Route("Courses")]
         [HttpPost]
         public ActionResult<Course> CreateCourse([FromBody] Course course)
         {
@@ -28,6 +30,7 @@ namespace Web.Api.Demo.Controllers
         }
 
         //GetCourseById
+        [Route("Courses/{id}")]
         [HttpGet]
         public ActionResult<Course> GetCourseById ([FromRoute] int id)
         {
@@ -42,6 +45,7 @@ namespace Web.Api.Demo.Controllers
         }
 
         //GetAllCourses
+        [Route("Courses")]
         [HttpGet]
         public ActionResult<List<Course>> GetAllCourses()
         {
@@ -50,6 +54,7 @@ namespace Web.Api.Demo.Controllers
         }
 
         //UpdateCourseById
+        [Route("Courses")]
         [HttpPut]
         public ActionResult<Course> UpdateCourseById([FromBody]Course course)
         {
@@ -58,6 +63,7 @@ namespace Web.Api.Demo.Controllers
         }
 
         //DeleteCourseById
+        [Route("Courses/{id}")]
         [HttpDelete]
         public string DeleteCourseById([FromRoute] int id)
         {
@@ -67,18 +73,17 @@ namespace Web.Api.Demo.Controllers
 
         //SetStudentsToCourse
         [HttpPost]
-        [Route("Courses/SetStudentsToCourse/{courseId}")]
-        public Course SetStudentsToCourse([FromRoute] int courseId, [FromBody] IEnumerable<int> studentsId)
+        [Route("Courses/assign-students/{courseId}")]
+        public Course SetStudentsToCourse([FromRoute] int courseId, [FromBody] IEnumerable<int> studentIds)
         {
-            _repository.SetStudentsToCourse(courseId, studentsId);
+            _repository.SetStudentsToCourse(courseId, studentIds);
             var course = _repository.GetCourse(courseId);
             return course;
         }
 
-
         //GetStudentsByCourseId
-        [HttpGet]
-        [Route("Courses/GetStudentsByCourseId/{courseId}")]
+        [Route("Courses/assign-students/{courseId}")]
+        [HttpGet]  
         public ActionResult<List<Student>> GetStudentsByCourseId(int courseId)
         {
             List<Student> students = _repository.GetStudentsByCourseId(courseId);
@@ -86,20 +91,11 @@ namespace Web.Api.Demo.Controllers
         }
 
         //DeleteStudentsFromCourse
+        [Route("Courses/assign-students/{courseId}")]
         [HttpDelete]
-        [Route("Courses/DeleteStudentFromCourse/{courseId}")]
-        public Course DeleteStudentFromCourse([FromRoute] int courseId, [FromBody] int studentId)
+        public Course DeleteSeveralStudentsFromCourse([FromRoute] int courseId, [FromBody] IEnumerable<int> studentIds)
         {
-            _repository.DeleteStudentFromCourse(courseId, studentId);
-            var course = _repository.GetCourse(courseId);
-            return course;
-        }
-
-        [HttpDelete]
-        [Route("Courses/DeleteSeveralStudentsFromCourse/{courseId}")]
-        public Course DeleteSeveralStudentsFromCourse([FromRoute] int courseId, [FromBody] IEnumerable<int> studentsId)
-        {
-            _repository.DeleteSeveralStudentsFromCourse(courseId, studentsId);
+            _repository.DeleteSeveralStudentsFromCourse(courseId, studentIds);
             var course = _repository.GetCourse(courseId);
             return course;
         }
