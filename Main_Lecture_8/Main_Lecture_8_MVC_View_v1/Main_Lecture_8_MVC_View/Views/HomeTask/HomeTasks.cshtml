@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Models.Models.HomeTask>
+
+<html>
+<head>
+    <title> This is Home tasks page</title>
+</head>
+
+<body>
+    @foreach (var hm in Model)
+    {
+        <div><p><b><font color="magenta">@hm.Title</font></b></p></div>
+        @Html.ActionLink("Edit HW", "Edit", new { Id = hm.Id })
+        <br>
+        @Html.ActionLink("Delete HW", "Delete", new { Id = hm.Id })
+
+    }
+
+</body>
+</html>

@@ -1,56 +1,24 @@
-﻿@model  Models.Models.HomeTask
-
+﻿@model Models.Models.HomeTask
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <html>
 <head>
-    <title> This is Home tasks page</title>
+    <title>@ViewData["action"]</title>
 </head>
 
 <body>
-    <form asp-action="@ViewData["Action"]">
-        <div class="form-horizontal">
-            <h4>HomeTask</h4>
-            <hr />
-            @Html.Hidden("courseId", ViewData["CourseId"])
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <p>Title</p>
-                    <label asp-for="Title" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Title" class="form-control" />
-                        <span asp-validation-for="Title" class="text-danger"></span>
-                    </div>
-            </div>
-            <div class="form-group">
-                <p>Description</p>
-                <label asp-for="Description" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="Description" class="form-control" />
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <p>Number</p>
-                <label asp-for="Number" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="Number" class="form-control" />
-                    <span asp-validation-for="Number" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <p>Date</p>
-                <label asp-for="Date" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="Date" class="form-control" />
-                    <span asp-validation-for="Date" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <p></p>
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
+    <form asp-action=@ViewData["action"]>
+        @Html.HiddenFor(p => p.Id);
+
+        <p>Title</p>
+        <input asp-for="Title" />
+        <p>Description</p>
+        <input asp-for="Description" />
+        <p>Number</p>
+        <input asp-for="Number" />
+        <p>Date</p>
+        <input asp-for="Date" />
+
+        <input type="submit" value="post" />
     </form>
 </body>
 </html>

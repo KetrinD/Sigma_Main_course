@@ -21,14 +21,22 @@ namespace Web.Api.Demo.Controllers
             _configuration = configuration;
         }
 
+        //All Home Tasks
+        [HttpGet]
+        public IActionResult AllHomeTasks()
+        {
+            var allCourseHomeTasks = _repository.GetAllHomeTasks();
+            return View("HomeTasks", allCourseHomeTasks);
+        }
 
+        //Create
         [HttpGet]
         public IActionResult Create([FromRoute] int id)
         {
             ViewData["Action"] = "Create";
             ViewData["CourseId"] = id;
             var model = new HomeTask();
-            return View("EditCourse", model);
+            return View("Edit", model);
         }
 
         [HttpPost]
@@ -38,7 +46,7 @@ namespace Web.Api.Demo.Controllers
             {
                 ViewData["Action"] = "Create";
                 ViewData["CourseId"] = id;
-                return View("EditCourse", homeTask);
+                return View("Edit", homeTask);
             }
             var routeValueDictionary = new RouteValueDictionary();
             routeValueDictionary.Add("id", id);
@@ -47,41 +55,87 @@ namespace Web.Api.Demo.Controllers
             return RedirectToAction("EditCourse", "Courses", routeValueDictionary);
         }
 
-        //[HttpGet]
+        //Edit Home Tasks
+        [HttpGet]
         public IActionResult Edit(int id)
         {
-            HomeTask homeTask = this._repository.GetHomeTaskById(id);
-            if (homeTask == null)
-                return this.NotFound();
+            HomeTask homeTask = _repository.GetHomeTaskById(id);
             ViewData["Action"] = "Edit";
-            return View(homeTask);
+            return View("Edit", homeTask);
         }
         [HttpPost]
-        public IActionResult Edit(HomeTask homeTaskParameter)
+        public IActionResult Edit([FromForm] HomeTask homeTask)
         {
-            if (!ModelState.IsValid)
-            {
-                ViewData["Action"] = "Edit";
-                return View(homeTaskParameter);
-            }
-            var homeTask = this._repository.GetHomeTaskById(homeTaskParameter.Id);
-            var routeValueDictionary = new RouteValueDictionary();
-            this._repository.UpdateHomeTask(homeTaskParameter);
-            routeValueDictionary.Add("id", homeTask.Course.Id);
-            return RedirectToAction("EditCourse", "Courses", routeValueDictionary);
+            //if (!ModelState.IsValid)
+            //{
+            //    ViewData["Action"] = "Edit";
+            //    return View(homeTaskParameter);
+            //}
+            //var homeTask = this._repository.GetHomeTaskById(homeTaskParameter.Id);
+            //var routeValueDictionary = new RouteValueDictionary();
+            //this._repository.UpdateHomeTask(homeTaskParameter);
+            //routeValueDictionary.Add("id", homeTask.Course.Id);
+            //return RedirectToAction("EditCourse", "Courses", routeValueDictionary);
+            _repository.UpdateHomeTask(homeTask);
+            return RedirectToAction("AllHomeTasks");
+
         }
 
+        ////Delete Home Tasks
+        //[HttpGet]
+        //public IActionResult Delete(int homeTaskId, int id)
+        //{
+        //    this._repository.DeleteHomeTask(homeTaskId);
+        //    var routeValueDictionary = new RouteValueDictionary();
+        //    routeValueDictionary.Add("id", id);
+        //    return RedirectToAction("EditCourse", "Courses", routeValueDictionary);
+        //}
 
+
+        //Delete Home Tasks
         [HttpGet]
-        public IActionResult Delete(int homeTaskId, int id)
+        public IActionResult Delete(int id)
         {
-            this._repository.DeleteHomeTask(homeTaskId);
-            var routeValueDictionary = new RouteValueDictionary();
-            routeValueDictionary.Add("id", id);
-            return RedirectToAction("EditCourse", "Course", routeValueDictionary);
+            _repository.DeleteHomeTask(id);
+            return RedirectToAction("AllHomeTasks");
         }
+
     }
 }
 
+
+////[HttpGet]
+//public IActionResult Edit(int id)
+//{
+//    HomeTask homeTask = this._repository.GetHomeTaskById(id);
+//    if (homeTask == null)
+//        return this.NotFound();
+//    ViewData["Action"] = "Edit";
+//    return View(homeTask);
+//}
+//[HttpPost]
+//public IActionResult Edit(HomeTask homeTaskParameter)
+//{
+//    if (!ModelState.IsValid)
+//    {
+//        ViewData["Action"] = "Edit";
+//        return View(homeTaskParameter);
+//    }
+//    var homeTask = this._repository.GetHomeTaskById(homeTaskParameter.Id);
+//    var routeValueDictionary = new RouteValueDictionary();
+//    this._repository.UpdateHomeTask(homeTaskParameter);
+//    routeValueDictionary.Add("id", homeTask.Course.Id);
+//    return RedirectToAction("EditCourse", "Courses", routeValueDictionary);
+//}
+
+
+//[HttpGet]
+//public IActionResult Delete(int homeTaskId, int id)
+//{
+//    this._repository.DeleteHomeTask(homeTaskId);
+//    var routeValueDictionary = new RouteValueDictionary();
+//    routeValueDictionary.Add("id", id);
+//    return RedirectToAction("EditCourse", "Course", routeValueDictionary);
+//}
 
 

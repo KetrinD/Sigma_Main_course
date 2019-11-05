@@ -143,7 +143,8 @@ namespace Web.Api.Demo.Controllers
 
         }
 
-        //HomeTasksByCourseId
+
+        //Home Tasks By CourseId
         [HttpGet]
         public IActionResult HomeTasksByCourseId(int id)
         {
@@ -172,6 +173,7 @@ namespace Web.Api.Demo.Controllers
             }
             return View("HomeTasksByCourse", model);
         }
+
     }
 
 }
