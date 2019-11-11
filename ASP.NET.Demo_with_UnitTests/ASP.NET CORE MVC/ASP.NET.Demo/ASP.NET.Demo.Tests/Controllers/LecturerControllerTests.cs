@@ -34,6 +34,22 @@
             Assert.Equal(2, model.Count);
         }
 
+        //Delete
+        [Fact]
+        public void Delete_ReturnViewResultWithModel_WhenLecturerExists()
+        {
+            //Arrange
+            Lecturer lecturer = new Lecturer() { Name = "Test Lecturer" };
+            LecturerService lecturersService = Substitute.For<LecturerService>();
+            lecturersService.GetLecturerById(5).Returns(lecturer);
+            LecturerController controller = new LecturerController(lecturersService);
+
+            //Act
+            var actionResult = controller.Delete(lecturer.Id);
+            // Assert
+            actionResult.Should().BeOfType<RedirectToActionResult>().Which.ActionName.Should().Be("Lecturers");
+        }
+
         //Edit tests
 
         [Fact]

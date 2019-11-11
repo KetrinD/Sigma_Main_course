@@ -32,6 +32,23 @@
             Assert.Equal(4, model.Count);
         }
 
+        //Delete
+        [Fact]
+        public void Delete_ReturnViewResultWithModel_WhenStudentExists()
+        {
+            //Arrange
+            Student student = new Student() { Name = "Test Student" };
+            StudentService studentService = Substitute.For<StudentService>();
+            studentService.GetStudentById(5).Returns(student);
+            StudentController controller = new StudentController(studentService);
+
+            //Act
+            var actionResult = controller.Delete(student.Id);
+            // Assert
+            actionResult.Should().BeOfType<RedirectToActionResult>().Which.ActionName.Should().Be("Students");
+        }
+
+
         //Edit tests
 
         [Fact]
