@@ -19,10 +19,6 @@
 
         private readonly RoleManager<IdentityRole> roleManager;
 
-        public SecurityController()
-        {
-        }
-
         public SecurityController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
