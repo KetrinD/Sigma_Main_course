@@ -7,6 +7,7 @@
     using DataAccess.ADO;
     using FluentAssertions;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Routing;
     using Models.Models;
     using Moq;
     using NSubstitute;
@@ -15,6 +16,41 @@
 
     public class HomeTaskControllerTests
     {
+        // Create
+        [Fact]
+        public void Create_ReturnsBadRequest_WhenHomeTaskParameterIsNull()
+        {
+            //Arrange
+            HomeTask homeTask = null;
+            HomeTaskService homeTaskService = Substitute.For<HomeTaskService>();
+            HomeTaskController controller = new HomeTaskController(homeTaskService, null);
+            int x = 5;
+
+            //Act
+            IActionResult actual = controller.Create(homeTask, x);
+
+            //Assert
+            actual.Should().BeAssignableTo<BadRequestResult>();
+        }
+
+        [Fact]
+        public void Create_ReturnsViewResult_WhenStudentModelStateIsInvalid()
+        {
+            //Arrange
+            HomeTask homeTask = new HomeTask { Title = "New HomeTask" };
+            HomeTaskService homeTaskService = Substitute.For<HomeTaskService>();
+            HomeTaskController controller = new HomeTaskController(homeTaskService, null);
+            int x = 5;
+
+            //Act
+            controller.ModelState.AddModelError("test", "test");  //makes model invalid => if (!ModelState.IsValid)
+            IActionResult actual = controller.Create(homeTask, x);
+
+            //Assert
+            Assert.IsAssignableFrom<ViewResult>(actual);
+            actual.Should().BeAssignableTo<ViewResult>();
+        }
+
         //Edit tests
 
         [Fact]
@@ -50,40 +86,65 @@
             viewResult.Model.Should().BeEquivalentTo(homeTask);
         }
 
-        // Create
         [Fact]
-        public void Create_ReturnsBadRequest_WhenHomeTaskParameterIsNull()
+        public void Edit_ReturnsViewResult_WhenModelStateIsInvalid()
         {
             //Arrange
-            HomeTask homeTask = null;
+            HomeTask homeTask = new HomeTask { Title = "Test Home Task" };
             HomeTaskService homeTaskService = Substitute.For<HomeTaskService>();
             HomeTaskController controller = new HomeTaskController(homeTaskService, null);
-            int x = 5;
-
-            //Act
-            IActionResult actual = controller.Create(homeTask, x);
-
-            //Assert
-            actual.Should().BeAssignableTo<BadRequestResult>();
-        }
-
-        [Fact]
-        public void Create_ReturnsViewResult_WhenStudentModelStateIsInvalid()
-        {
-            //Arrange
-            HomeTask homeTask = new HomeTask { Title = "New HomeTask" };
-            HomeTaskService homeTaskService = Substitute.For<HomeTaskService>();
-            HomeTaskController controller = new HomeTaskController(homeTaskService, null);
-            int x = 5;
 
             //Act
             controller.ModelState.AddModelError("test", "test");  //makes model invalid => if (!ModelState.IsValid)
-            IActionResult actual = controller.Create(homeTask, x);
+            IActionResult actual = controller.Edit(homeTask);
 
             //Assert
             Assert.IsAssignableFrom<ViewResult>(actual);
             actual.Should().BeAssignableTo<ViewResult>();
         }
+
+        //Delete
+        [Fact]
+        public void Delete_RedirectsToEditCourse_WhenHomeTaskExists()
+        {
+            //Arrange
+            Course course = new Course() { Name = "Test course", Id = 5 };
+            CourseService courseService = Substitute.For<CourseService>();
+            courseService.GetCourse(5).Returns(course);
+
+            HomeTask homeTask = new HomeTask { Title = "Test Home Task", Id = 3 };
+            HomeTaskService homeTaskService = Substitute.For<HomeTaskService>();
+            HomeTaskController controller = new HomeTaskController(homeTaskService, null);
+
+            //Act
+            var actionResult = controller.Delete(homeTask.Id, course.Id);
+            // Assert
+            actionResult.Should().BeOfType<RedirectToActionResult>().Which.ActionName.Should().Be("Edit", "Course");
+        }
     }
 }
 
+
+
+//[Fact]
+//public void Edit_RedirectsToEditCourse_WhenModelStateIsValid()
+//{
+//    //Arrange
+//    Course course = new Course() { Name = "Test course" };
+//    CourseService courseService = Substitute.For<CourseService>();
+//    courseService.GetCourse(5).Returns(course);
+
+//    HomeTask homeTask = new HomeTask { Title = "Test Home Task" };
+//    HomeTaskService homeTaskService = Substitute.For<HomeTaskService>();
+//    HomeTaskController controller = new HomeTaskController(homeTaskService, null);
+//    homeTaskService.GetHomeTaskById(3).Returns(homeTask);
+
+//    //Act
+//    var actionResult = controller.Edit(homeTask);
+//    homeTaskService.Received().UpdateHomeTask(homeTask);
+//    var routeValueDictionary = new RouteValueDictionary();
+//    routeValueDictionary.Received().Add("id", course.Id);
+
+//    // Assert
+//    actionResult.Should().BeOfType<RedirectToActionResult>().Which.ActionName.Should().Be("Edit", "Course");
+//}

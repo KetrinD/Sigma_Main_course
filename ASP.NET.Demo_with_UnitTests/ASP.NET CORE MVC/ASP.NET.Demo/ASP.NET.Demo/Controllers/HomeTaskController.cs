@@ -53,7 +53,6 @@ namespace ASP.NET.Demo.Controllers
             }
             var routeValueDictionary = new RouteValueDictionary();
             routeValueDictionary.Add("id", courseId);
-
             this.homeTaskService.CreateHomeTask(homeTask, courseId);
             return RedirectToAction("Edit", "Course", routeValueDictionary);
         }
@@ -78,7 +77,6 @@ namespace ASP.NET.Demo.Controllers
             if (!ModelState.IsValid)
             {
                 ViewData["Action"] = "Edit";
-
                 return View(homeTaskParameter);
             }
 

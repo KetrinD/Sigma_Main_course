@@ -14,8 +14,9 @@
     public class CourseControllerTests
     {
         [Fact]
-        public void Courses_ReturnsViewResult_WithListOfCourses()
+        public async Task Courses_ReturnsViewResult_WithListOfCourses()
         {
+            // Arrange
             // Arrange
             var courseServiceMock = Substitute.For<CourseService>();
             courseServiceMock.GetAllCourses().Returns(this.GetCoursesList());
@@ -30,89 +31,9 @@
             Assert.Equal(2, model.Count);
         }
 
-        //Delete
-        [Fact]
-        public void Delete_ReturnViewResultWithModel_WhenCourseExists()
-        {
-            //Arrange
-            Course course = new Course() { Name = "Test course" };
-            CourseService courseService = Substitute.For<CourseService>();
-            courseService.GetCourse(5).Returns(course);
-            CourseController controller = new CourseController(courseService, null, null);
-
-            //Act
-            var actionResult = controller.Delete(course.Id);
-            // Assert
-            actionResult.Should().BeOfType<RedirectToActionResult>().Which.ActionName.Should().Be("Courses");
-        }
-
-        //Edit tests
-        [Fact]
-        public void Edit_ReturnNotFound_WhenCourseDoesNotExist()
-        {
-            //Arrange
-            CourseService courseService = Substitute.For<CourseService>();
-            CourseController controller = new CourseController(courseService, null, null);
-
-            //Act
-            IActionResult actual = controller.Edit(0);
-
-            //Assert
-            var expected = new NotFoundResult();
-            actual.Should().BeEquivalentTo(expected);
-        }
-
-        [Fact]
-        public void Edit_ReturnViewResultWithModel_WhenCourseExists()
-        {
-            //Arrange
-            Course course = new Course { Name = "Test one" };
-            CourseService courseService = Substitute.For<CourseService>();
-            courseService.GetCourse(5).Returns(course);
-            CourseController controller = new CourseController(courseService, null, null);
-
-            //Act
-            IActionResult actual = controller.Edit(5);
-
-            //Assert
-            actual.Should().BeAssignableTo<ViewResult>();
-            ViewResult viewResult = (ViewResult)actual;
-            viewResult.Model.Should().BeEquivalentTo(course);
-        }
-
-        [Fact]
-        public void Edit_ReturnsBadRequest_WhenCourseParameterIsNull()
-        {
-            //Arrange
-            Course course = null;
-            CourseService courseService = Substitute.For<CourseService>();
-            CourseController controller = new CourseController(courseService, null, null);
-
-            //Act
-            IActionResult actual = controller.Edit(course);
-
-            //Assert
-            actual.Should().BeAssignableTo<BadRequestResult>();
-        }
-      
-        [Fact]
-        public void Edit_ReturnViewResultWithModel_WhenCourseParameterNotNull()
-        {
-            //Arrange
-            Course course = new Course() { Name = "Test course" };
-            CourseService courseService = Substitute.For<CourseService>();
-            courseService.GetCourse(5).Returns(course);
-            CourseController controller = new CourseController(courseService, null, null);
-
-            //Act
-            var actionResult = controller.Edit(course);
-            courseService.Received().UpdateCourse(course);
-
-            // Assert
-            actionResult.Should().BeOfType<RedirectToActionResult>().Which.ActionName.Should().Be("Courses");
-        }
 
         // Create
+
         [Fact]
         public void Create_ReturnsBadRequest_WhenCourseParameterIsNull()
         {
@@ -161,9 +82,93 @@
             actionResult.Should().BeOfType<RedirectToActionResult>().Which.ActionName.Should().Be("Courses");
 
         }
-             
-        // Assign Students
 
+
+        //Edit tests
+
+        [Fact]
+        public void Edit_ReturnNotFound_WhenCourseDoesNotExist()
+        {
+            //Arrange
+            CourseService courseService = Substitute.For<CourseService>();
+            CourseController controller = new CourseController(courseService, null, null);
+
+            //Act
+            IActionResult actual = controller.Edit(0);
+
+            //Assert
+            var expected = new NotFoundResult();
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void Edit_ReturnViewResultWithModel_WhenCourseExists()
+        {
+            //Arrange
+            Course course = new Course { Name = "Test one" };
+            CourseService courseService = Substitute.For<CourseService>();
+            courseService.GetCourse(5).Returns(course);
+            CourseController controller = new CourseController(courseService, null, null);
+
+            //Act
+            IActionResult actual = controller.Edit(5);
+
+            //Assert
+            actual.Should().BeAssignableTo<ViewResult>();
+            ViewResult viewResult = (ViewResult)actual;
+            viewResult.Model.Should().BeEquivalentTo(course);
+        }
+
+        [Fact]
+        public void Edit_ReturnsBadRequest_WhenCourseParameterIsNull()
+        {
+            //Arrange
+            Course course = null;
+            CourseService courseService = Substitute.For<CourseService>();
+            CourseController controller = new CourseController(courseService, null, null);
+
+            //Act
+            IActionResult actual = controller.Edit(course);
+
+            //Assert
+            actual.Should().BeAssignableTo<BadRequestResult>();
+        }
+
+        [Fact]
+        public void Edit_RedirectsToCourses_WhenCourseParameterIsNotNull()
+        {
+            //Arrange
+            Course course = new Course() { Name = "Test course" };
+            CourseService courseService = Substitute.For<CourseService>();
+            courseService.GetCourse(5).Returns(course);
+            CourseController controller = new CourseController(courseService, null, null);
+
+            //Act
+            var actionResult = controller.Edit(course);
+            courseService.Received().UpdateCourse(course);
+
+            // Assert
+            actionResult.Should().BeOfType<RedirectToActionResult>().Which.ActionName.Should().Be("Courses");
+        }
+
+        //Delete
+        [Fact]
+        public void Delete_RedirectsToCourses_WhenCourseExists()
+        {
+            //Arrange
+            Course course = new Course() { Name = "Test course" };
+            CourseService courseService = Substitute.For<CourseService>();
+            courseService.GetCourse(5).Returns(course);
+            CourseController controller = new CourseController(courseService, null, null);
+
+            //Act
+            var actionResult = controller.Delete(course.Id);
+
+            // Assert
+            actionResult.Should().BeOfType<RedirectToActionResult>().Which.ActionName.Should().Be("Courses");
+        }
+
+        // Assign Students
         [Fact]
         public async Task AssignStudents_ReturnsViewResult_WithViewModel()
         {
@@ -261,11 +266,52 @@
             actual.Should().BeAssignableTo<BadRequestResult>();
         }
 
-      //  [Fact]
+        //  [Fact]
         public async Task AssignStudents_SetStudentsToCoursesAndRedirectsToCourses_WhenCoursesAndStudentsAreAssigned()
         {
+            //Arrange
+            const int courseId = 1;
+            const int assignedStudentId = 11;
+            const int nonAssignedStudentId = 22;
+            const string courseName = "test";
+
+            CourseStudentAssignmentViewModel expectedModel = new CourseStudentAssignmentViewModel()
+            {
+                Id = courseId,
+                Name = courseName,
+                Students = new List<StudentViewModel>()
+                {
+                 new StudentViewModel(){StudentId = assignedStudentId,StudentFullName = "Test1", IsAssigned = true},
+                 new StudentViewModel(){StudentId = nonAssignedStudentId,StudentFullName = "Test2", IsAssigned = false}
+                }
+
+            };
+            var courseServiceMock = Substitute.For<CourseService>();
+
+            courseServiceMock.GetCourse(courseId).Returns(new Course()
+            {
+                Id = courseId,
+                Name = courseName,
+                Students = new List<StudentCourse>() { new StudentCourse() { StudentId = assignedStudentId } }
+            });
+
+            var studentService = Substitute.For<StudentService>();
+            var students = new List<Student>()
+            {
+               new Student() { Id = assignedStudentId, Name = "Test1" },
+               new Student() { Id = nonAssignedStudentId, Name = "Test2" }
+            };
+            studentService.GetAllStudents().Returns(students);
+            var controller = new CourseController(courseServiceMock, studentService, null);
+
+            // Act
+            var actionResult = controller.AssignStudents(courseId);
+
+            // Assert
+            actionResult.Should().BeOfType<RedirectToActionResult>().Which.ActionName.Should().Be("Courses");
 
         }
+
 
         // Assign Lecturers
 
@@ -286,8 +332,6 @@
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsAssignableFrom<CourseLecturerAssignmentViewModel>(viewResult.ViewData.Model);
         }
-
-
 
         [Fact]
         public async Task AssignLecturers_ReturnsViewResult_WithCoursesAndStudentsAreAssigned()
@@ -367,7 +411,6 @@
             //Assert
             actual.Should().BeAssignableTo<BadRequestResult>();
         }
-
 
         private List<Course> GetCoursesList()
         {

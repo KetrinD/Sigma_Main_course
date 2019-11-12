@@ -34,18 +34,51 @@
             Assert.Equal(2, model.Count);
         }
 
-        //Delete
+        // Create
         [Fact]
-        public void Delete_ReturnViewResultWithModel_WhenLecturerExists()
+        public void Create_ReturnsBadRequest_WhenLecturerParameterIsNull()
         {
             //Arrange
-            Lecturer lecturer = new Lecturer() { Name = "Test Lecturer" };
-            LecturerService lecturersService = Substitute.For<LecturerService>();
-            lecturersService.GetLecturerById(5).Returns(lecturer);
-            LecturerController controller = new LecturerController(lecturersService);
+            Lecturer lecturer = null;
+            LecturerService lecturerService = Substitute.For<LecturerService>();
+            LecturerController controller = new LecturerController(lecturerService);
 
             //Act
-            var actionResult = controller.Delete(lecturer.Id);
+            IActionResult actual = controller.Create(lecturer);
+
+            //Assert
+            actual.Should().BeAssignableTo<BadRequestResult>();
+        }
+
+        [Fact]
+        public void Create_ReturnsViewResult_WhenLecturerModelStateIsInvalid()
+        {
+            //Arrange
+            Lecturer lecturer = new Lecturer { Name = "New Lecturer" };
+            LecturerService lecturerService = Substitute.For<LecturerService>();
+            LecturerController controller = new LecturerController(lecturerService);
+
+            //Act
+            controller.ModelState.AddModelError("test", "test");  //makes model invalid => if (!ModelState.IsValid)
+            IActionResult actual = controller.Create(lecturer);
+
+            //Assert
+            Assert.IsAssignableFrom<ViewResult>(actual);
+            actual.Should().BeAssignableTo<ViewResult>();
+        }
+
+        [Fact]
+        public void Create_RedirectsToLecturersAndCreatesLecturer_WhenRequestIsValid()
+        {
+            //Arrange
+            Lecturer lecturer = new Lecturer { Name = "New Lecturer" };
+            LecturerService lecturerService = Substitute.For<LecturerService>();
+            LecturerController controller = new LecturerController(lecturerService);
+
+            //Act
+            var actionResult = controller.Create(lecturer);
+            lecturerService.Received().CreateLecturer(lecturer);
+
             // Assert
             actionResult.Should().BeOfType<RedirectToActionResult>().Which.ActionName.Should().Be("Lecturers");
         }
@@ -67,7 +100,6 @@
             actual.Should().BeEquivalentTo(expected);
         }
 
-
         [Fact]
         public void Edit_ReturnViewResultWithModel_WhenLecturerExists()
         {
@@ -86,37 +118,54 @@
             viewResult.Model.Should().BeEquivalentTo(lecturer);
         }
 
-        // Create
         [Fact]
-        public void Create_ReturnsBadRequest_WhenLecturerParameterIsNull()
+        public void Edit_ReturnsViewResult_WhenModelStateIsInvalid()
         {
             //Arrange
-            Lecturer lecturer = null;
-            LecturerService lecturerService = Substitute.For<LecturerService>();
-            LecturerController controller = new LecturerController(lecturerService);
-
-            //Act
-            IActionResult actual = controller.Create(lecturer);
-
-            //Assert
-            actual.Should().BeAssignableTo<BadRequestResult>();
-        }
-
-        [Fact]
-        public void Create_ReturnsViewResult_WhenLecturerModelStateIsInvalid()
-        {
-            //Arrange
-            Lecturer student = new Lecturer { Name = "New Lecturer"};
+            Lecturer lecturer = new Lecturer { Name = "Test Lecturer" };
             LecturerService lecturerService = Substitute.For<LecturerService>();
             LecturerController controller = new LecturerController(lecturerService);
 
             //Act
             controller.ModelState.AddModelError("test", "test");  //makes model invalid => if (!ModelState.IsValid)
-            IActionResult actual = controller.Create(student);
+            IActionResult actual = controller.Edit(lecturer);
 
             //Assert
             Assert.IsAssignableFrom<ViewResult>(actual);
             actual.Should().BeAssignableTo<ViewResult>();
+        }
+
+        [Fact]
+        public void Edit_RedirectsToLecturers_WhenModelStateIsValid()
+        {
+            //Arrange
+            Lecturer lecturer = new Lecturer { Name = "Test Lecturer" };
+            LecturerService lecturerService = Substitute.For<LecturerService>();
+            lecturerService.GetLecturerById(5).Returns(lecturer);
+            LecturerController controller = new LecturerController(lecturerService);
+
+            //Act
+            var actionResult = controller.Edit(lecturer);
+            lecturerService.Received().UpdateLecturer(lecturer);
+
+            // Assert
+            actionResult.Should().BeOfType<RedirectToActionResult>().Which.ActionName.Should().Be("Lecturers");
+        }
+
+        //Delete
+        [Fact]
+        public void Delete_RedirectsToLecturers_WhenLecturerExists()
+        {
+            //Arrange
+            Lecturer lecturer = new Lecturer() { Name = "Test Lecturer" };
+            LecturerService lecturersService = Substitute.For<LecturerService>();
+            lecturersService.GetLecturerById(5).Returns(lecturer);
+            LecturerController controller = new LecturerController(lecturersService);
+
+            //Act
+            var actionResult = controller.Delete(lecturer.Id);
+            // Assert
+            actionResult.Should().BeOfType<RedirectToActionResult>().Which.ActionName.Should().Be("Lecturers");
         }
 
         private List<Lecturer> GetLecturersList()

@@ -32,18 +32,51 @@
             Assert.Equal(4, model.Count);
         }
 
-        //Delete
+        // Create
         [Fact]
-        public void Delete_ReturnViewResultWithModel_WhenStudentExists()
+        public void Create_ReturnsBadRequest_WhenStudentParameterIsNull()
         {
             //Arrange
-            Student student = new Student() { Name = "Test Student" };
+            Student student = null;
             StudentService studentService = Substitute.For<StudentService>();
-            studentService.GetStudentById(5).Returns(student);
             StudentController controller = new StudentController(studentService);
 
             //Act
-            var actionResult = controller.Delete(student.Id);
+            IActionResult actual = controller.Create(student);
+
+            //Assert
+            actual.Should().BeAssignableTo<BadRequestResult>();
+        }
+
+        [Fact]
+        public void Create_ReturnsViewResult_WhenStudentModelStateIsInvalid()
+        {
+            //Arrange
+            Student student = new Student { Name = "New Student" };
+            StudentService studentService = Substitute.For<StudentService>();
+            StudentController controller = new StudentController(studentService);
+
+            //Act
+            controller.ModelState.AddModelError("test", "test");  //makes model invalid => if (!ModelState.IsValid)
+            IActionResult actual = controller.Create(student);
+
+            //Assert
+            Assert.IsAssignableFrom<ViewResult>(actual);
+            actual.Should().BeAssignableTo<ViewResult>();
+        }
+
+        [Fact]
+        public void Create_RedirectsToStudentsAndCreatesStudent_WhenRequestIsValid()
+        {
+            //Arrange
+            Student student = new Student { Name = "New Student" };
+            StudentService studentService = Substitute.For<StudentService>();
+            StudentController controller = new StudentController(studentService);
+
+            //Act
+            var actionResult = controller.Create(student);
+            studentService.Received().CreateStudent(student);
+
             // Assert
             actionResult.Should().BeOfType<RedirectToActionResult>().Which.ActionName.Should().Be("Students");
         }
@@ -84,38 +117,56 @@
             viewResult.Model.Should().BeEquivalentTo(student);
         }
 
-        // Create
         [Fact]
-        public void Create_ReturnsBadRequest_WhenStudentParameterIsNull()
+        public void Edit_ReturnsViewResult_WhenModelStateIsInvalid()
         {
             //Arrange
-            Student student = null;
-            StudentService studentService = Substitute.For<StudentService>();
-            StudentController controller = new StudentController(studentService);
-
-            //Act
-            IActionResult actual = controller.Create(student);
-
-            //Assert
-            actual.Should().BeAssignableTo<BadRequestResult>();
-        }
-
-        [Fact]
-        public void Create_ReturnsViewResult_WhenStudentModelStateIsInvalid()
-        {
-            //Arrange
-            Student student = new Student { Name = "New Student" };
+            Student student = new Student { Name = "Test student" };
             StudentService studentService = Substitute.For<StudentService>();
             StudentController controller = new StudentController(studentService);
 
             //Act
             controller.ModelState.AddModelError("test", "test");  //makes model invalid => if (!ModelState.IsValid)
-            IActionResult actual = controller.Create(student);
+            IActionResult actual = controller.Edit(student);
 
             //Assert
             Assert.IsAssignableFrom<ViewResult>(actual);
             actual.Should().BeAssignableTo<ViewResult>();
         }
+
+        [Fact]
+        public void Edit_RedirectsToStudents_WhenModelStateIsValid()
+        {
+            //Arrange
+            Student student = new Student { Name = "Test student" };
+            StudentService studentService = Substitute.For<StudentService>();
+            studentService.GetStudentById(5).Returns(student);
+            StudentController controller = new StudentController(studentService);
+
+            //Act
+            var actionResult = controller.Edit(student);
+            studentService.Received().UpdateStudent(student);
+
+            // Assert
+            actionResult.Should().BeOfType<RedirectToActionResult>().Which.ActionName.Should().Be("Students");
+        }
+
+        //Delete
+        [Fact]
+        public void Delete_RedirectsToStudents_WhenStudentExists()
+        {
+            //Arrange
+            Student student = new Student() { Name = "Test Student" };
+            StudentService studentService = Substitute.For<StudentService>();
+            studentService.GetStudentById(5).Returns(student);
+            StudentController controller = new StudentController(studentService);
+
+            //Act
+            var actionResult = controller.Delete(student.Id);
+            // Assert
+            actionResult.Should().BeOfType<RedirectToActionResult>().Which.ActionName.Should().Be("Students");
+        }
+
         private List<Student> GetStudentsList()
         {
             return new List<Student>() { new Student(), new Student(), new Student(), new Student() };

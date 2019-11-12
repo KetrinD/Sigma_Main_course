@@ -25,41 +25,6 @@
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public IActionResult Edit(int id)
-        {
-            Lecturer lecturer = lecturerService.GetLecturerById(id);
-            if (lecturer == null)
-            {
-                return this.NotFound();
-            }
-            ViewData["Action"] = "Edit";
-            return this.View(lecturer);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public IActionResult Edit(Lecturer model)
-        {
-            if (!ModelState.IsValid)
-            {
-                ViewData["Action"] = "Edit";
-                return this.View("Edit", model);
-            }
-            this.lecturerService.UpdateLecturer(model);
-
-            return RedirectToAction("Lecturers");
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public IActionResult Delete(int id)
-        {
-            this.lecturerService.DeleteLecturer(id);
-            return RedirectToAction("Lecturers");
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["Action"] = "Create";
@@ -86,5 +51,40 @@
             this.lecturerService.CreateLecturer(model);
             return RedirectToAction("Lecturers");
         }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Edit(int id)
+        {
+            Lecturer lecturer = lecturerService.GetLecturerById(id);
+            if (lecturer == null)
+            {
+                return this.NotFound();
+            }
+            ViewData["Action"] = "Edit";
+            return this.View(lecturer);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Edit(Lecturer model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewData["Action"] = "Edit";
+                return this.View("Edit", model);
+            }
+            lecturerService.UpdateLecturer(model);
+            return RedirectToAction("Lecturers");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Delete(int id)
+        {
+            this.lecturerService.DeleteLecturer(id);
+            return RedirectToAction("Lecturers");
+        }
+
     }
 }

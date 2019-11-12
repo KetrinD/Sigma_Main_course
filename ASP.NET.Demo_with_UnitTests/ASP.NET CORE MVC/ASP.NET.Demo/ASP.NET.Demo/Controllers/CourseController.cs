@@ -34,11 +34,22 @@ namespace ASP.NET.Demo.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult Delete(int id)
+        [HttpPost]
+        public IActionResult Create(Course courseParameter)
         {
-            this.courseService.DeleteCourse(id);
+            if (courseParameter == null)
+            {
+                return this.BadRequest();
+            }
 
-            return RedirectToAction("Courses");
+            if (!ModelState.IsValid)
+            {
+                ViewData["action"] = nameof(this.Create);
+                return this.View("Edit", courseParameter);
+            }
+
+            this.courseService.CreateCourse(courseParameter);
+            return this.RedirectToAction(nameof(Courses));
         }
 
         [Authorize(Roles = "Admin")]
@@ -74,22 +85,11 @@ namespace ASP.NET.Demo.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public IActionResult Create(Course courseParameter)
+        public IActionResult Delete(int id)
         {
-            if (courseParameter == null)
-            {
-                return this.BadRequest();
-            }
+            this.courseService.DeleteCourse(id);
 
-            if (!ModelState.IsValid)
-            {
-                ViewData["action"] = nameof(this.Create);
-                return this.View("Edit", courseParameter);
-            }
-
-            this.courseService.CreateCourse(courseParameter);
-            return this.RedirectToAction(nameof(Courses));
+            return RedirectToAction("Courses");
         }
 
         [Authorize(Roles = "Admin,Lecturer")]

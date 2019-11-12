@@ -28,41 +28,6 @@ namespace ASP.NET.Demo.Controllers
             return View(studentService.GetAllStudents());
         }
 
-        [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public IActionResult Edit(int id)
-        {
-            var student = studentService.GetStudentById(id);
-            if (student == null)
-            {
-                return this.NotFound();
-            }
-            ViewData["Action"] = "Edit";
-            return this.View(student);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public IActionResult Edit(Student model)
-        {
-            if (!ModelState.IsValid)
-            {
-                ViewData["Action"] = "Edit";
-                return this.View("Edit", model);
-            }
-            this.studentService.UpdateStudent(model);
-
-            return RedirectToAction("Students");
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public IActionResult Delete(int id)
-        {
-            this.studentService.DeleteStudent(id);
-            return RedirectToAction("Students");
-        }
-
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create()
@@ -85,10 +50,44 @@ namespace ASP.NET.Demo.Controllers
                 ViewData["Action"] = "Create";
                 return this.View("Edit", model);
             }
-
             this.studentService.CreateStudent(model);
             return RedirectToAction("Students");
 
         }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Edit(int id)
+        {
+            var student = studentService.GetStudentById(id);
+            if (student == null)
+            {
+                return this.NotFound();
+            }
+            ViewData["Action"] = "Edit";
+            return this.View(student);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Edit(Student model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewData["Action"] = "Edit";
+                return this.View("Edit", model);
+            }
+            studentService.UpdateStudent(model);
+            return RedirectToAction("Students");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Delete(int id)
+        {
+            this.studentService.DeleteStudent(id);
+            return RedirectToAction("Students");
+        }
+       
     }
 }
