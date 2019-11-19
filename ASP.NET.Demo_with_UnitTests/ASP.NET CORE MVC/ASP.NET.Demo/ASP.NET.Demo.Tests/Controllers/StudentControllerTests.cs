@@ -1,6 +1,7 @@
 ﻿namespace ASP.NET.Demo.Tests
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using ASP.NET.Demo.Controllers;
     using ASP.NET.Demo.ViewModels;
@@ -15,6 +16,29 @@
 
     public class StudentControllerTests
     {
+        [Fact]
+        public async Task Create_Student_ReturnsException_When_Same_Email()
+        {
+            // Arrange
+            //Student student = new Student() { Name = "Bob", Email = "abcde91@gmail.com", Id = 1, PhoneNumber = "380999999999" };
+            Student fakeStudent = new Student() { Name = "Bob", Email = "abcde91@gmail.com", Id = 2, PhoneNumber = "380999999999" };
+            //StudentController model = new StudentController(null);
+            var studentServiceMock = Substitute.For<StudentService>();
+            studentServiceMock.GetAllStudents().Returns(this.GetStudentsList());
+            var controller = new StudentController(studentServiceMock);
+
+            // Act
+            var a = controller.Create(fakeStudent);
+            // Assert
+            var actualView = Assert.IsType<ViewResult>(a);
+            var actualModel = actualView.ViewData.ModelState;
+            var actualViewName = actualView.ViewName;
+            actualViewName.Should().BeEquivalentTo("Edit");
+            //ModelStateEntry expected = new ModelStateEntry();
+            actualModel.Values.Single().Errors.Single().ErrorMessage.Should().BeEquivalentTo("User with the same email is already registrated");
+            actualModel.IsValid.Should().BeFalse();
+        }
+
         [Fact]
         public void Students_ReturnsViewResult_WithListOfStudents()
         {
@@ -169,7 +193,12 @@
 
         private List<Student> GetStudentsList()
         {
-            return new List<Student>() { new Student(), new Student(), new Student(), new Student() };
+            return new List<Student>() { 
+                new Student() { Name = "Bob", Email = "abcde91@gmail.com", Id = 1, PhoneNumber = "380999999999" },
+                new Student() { Name = "Robby", Email = "Robby1@gmail.com", Id = 1, PhoneNumber = "380999999999" },
+                new Student() { Name = "Megan", Email = "Megan@gmail.com", Id = 1, PhoneNumber = "380999999999" },
+                new Student() { Name = "Dilan", Email = "Dilan@gmail.com", Id = 1, PhoneNumber = "380999999999" }
+            };
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace ASP.NET.Demo.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
 
     using ASP.NET.Demo.ViewModels;
@@ -41,6 +42,11 @@ namespace ASP.NET.Demo.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Create(Student model)
         {
+            var students = new List<Student>();
+            students = studentService.GetAllStudents();
+            foreach (var n in students)
+                if (n.Email == model.Email)
+                    ModelState.AddModelError("Email", "User with the same email is already registrated");
             if (model == null)
             {
                 return this.BadRequest();
@@ -52,7 +58,6 @@ namespace ASP.NET.Demo.Controllers
             }
             this.studentService.CreateStudent(model);
             return RedirectToAction("Students");
-
         }
 
         [HttpGet]
